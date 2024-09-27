@@ -1,1 +1,35 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '16' # Verifique a versão do Node.js que seu projeto precisa
+
+    - name: Instalar dependências
+      run: npm install
+
+    - name: Build do projeto
+      run: npm run build # Substitua com o comando correto de build do seu projeto
+
+    - name: Render Deploy Action
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.ID }} # Seu ID de serviço no Render
+        api-key: ${{ secrets.KEY }} # Sua API key para o Render
 
